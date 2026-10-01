@@ -1,8 +1,8 @@
-# WinCfAPI
+# WinFUSE
 
 A Python-based Windows Cloud Files API filesystem provider with an application-controlled backing store.
 
-WinCfAPI exposes a normal Windows filesystem mount through the Windows Cloud Files API (CfAPI). Files and directories appear in the mounted location as placeholders, while the actual data is provided by an application-defined `BackingStore` implementation.
+WinFUSE exposes a normal Windows filesystem mount through the Windows Cloud Files API (CfAPI). Files and directories appear in the mounted location as placeholders, while the actual data is provided by an application-defined `BackingStore` implementation.
 
 The project can be used as a standalone program backed by a local `./storage` directory, or imported as a Python module and backed by anything the application wants.
 
@@ -15,7 +15,7 @@ Windows Explorer
 CfAPI Mount Directory
        │
        ▼
-WinCfAPI Provider
+WinFUSE Provider
        │
        ├── Placeholder Data
        │
@@ -110,11 +110,11 @@ mount\
     └── song.flac
 ```
 
-The file in `mount` is a Cloud Files placeholder until Windows requests its contents. At that point, WinCfAPI asks the backing store for the requested data and supplies it through CfAPI.
+The file in `mount` is a Cloud Files placeholder until Windows requests its contents. At that point, WinFUSE asks the backing store for the requested data and supplies it through CfAPI.
 
-## Using WinCfAPI as a Module
+## Using WinFUSE as a Module
 
-When imported, WinCfAPI does not choose or create a backing store.
+When imported, WinFUSE does not choose or create a backing store.
 
 The application provides one:
 
@@ -164,7 +164,7 @@ The application controls both:
 
 ## BackingStore
 
-`BackingStore` is the interface between WinCfAPI and the application's storage system.
+`BackingStore` is the interface between WinFUSE and the application's storage system.
 
 Paths passed to the backend are logical relative paths using `/` as the separator:
 
@@ -287,7 +287,7 @@ Remote object storage
 while the Python application itself could live at:
 
 ```text
-C:\Users\Dan\OneDrive\WinCfAPI\
+C:\Users\Dan\OneDrive\WinFUSE\
 ```
 
 The mount directory should not be placed inside another cloud provider's sync root.
@@ -300,7 +300,7 @@ For example:
 
 ```text
 OneDrive\
-└── WinCfAPI\
+└── WinFUSE\
     ├── cfapi_mirror.py
     └── app.py
 
@@ -332,7 +332,7 @@ The Cloud Files API layer is intentionally kept separate from the backing storag
 
 The most important design goal is separation of responsibilities.
 
-WinCfAPI handles:
+WinFUSE handles:
 
 ```text
 Windows filesystem
@@ -372,7 +372,7 @@ DO NOT TOUCH THE BLACK MAGIC.
 
 ## License
 
-WinCfAPI is licensed under the GNU General Public License v3.0.
+WinFUSE is licensed under the GNU General Public License v3.0.
 
 See the [LICENSE](LICENSE) file for the complete license text.
 
