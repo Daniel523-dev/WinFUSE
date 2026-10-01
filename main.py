@@ -150,16 +150,8 @@ def callback_path_to_backend_path(info):
     full_mount_path = os.path.normpath(volume + normalized)
     return mount_path_to_backend_path(full_mount_path)
 def reset_mount_directory():
-    if not os.path.exists(MOUNT_DIR):
-        os.makedirs(MOUNT_DIR, exist_ok=True)
-        return
-    for entry in os.scandir(MOUNT_DIR):
-        path = entry.path
-        try:
-            if entry.is_dir(follow_symlinks=False):shutil.rmtree(path, ignore_errors=False)
-            else:os.unlink(path)
-        except Exception as exc:
-            raise RuntimeError(f"Could not remove old mount entry {path!r}: {exc}\nClose every Explorer window pointing at ./mount and try again.") from exc
+    if os.path.exists(MOUNT_DIR):shutil.rmtree(MOUNT_DIR,ignore_errors=True)
+    os.makedirs(MOUNT_DIR, exist_ok=True)
 def build_placeholder_info(backend_directory, entry_name, st):
     is_directory = st.is_directory
     placeholder = CF_PLACEHOLDER_CREATE_INFO()
@@ -306,7 +298,6 @@ def on_fetch_data(callback_info_ptr, callback_parameters_ptr):
                 print(f"[Fetch] Failed to report error: {fail_exc}")
     threading.Thread(target=worker,name="CfFetchData",daemon=True,).start()
 cb_fetch_data = CF_CALLBACK_FUNC(on_fetch_data)
-CALLBACK_REGISTRATIONS = CF_CALLBACK_REGISTRATION * 2
 CALLBACK_REGISTRATIONS = (CF_CALLBACK_REGISTRATION * 2)()
 CALLBACK_REGISTRATIONS[0].Callback = ctypes.cast(cb_fetch_data,ctypes.c_void_p,)
 CALLBACK_REGISTRATIONS[1].Type = CF_CALLBACK_TYPE_NONE
