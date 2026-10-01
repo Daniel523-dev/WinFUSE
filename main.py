@@ -512,4 +512,4 @@ if __name__ == "__main__":
                 if os.path.isdir(destination_path):shutil.rmtree(destination_path,ignore_errors=True,)
                 else:os.remove(destination_path)
             shutil.move(source_path,destination_path,)
-    main(LocalStorageBackend("C:\\Users\\murphy2607\\storage"),'C:\\Users\\murphy2607\\mount2')
+    main(LocalStorageBackend(".\\storage"),'.\\mount')
